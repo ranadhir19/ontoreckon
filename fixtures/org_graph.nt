@@ -1,0 +1,44 @@
+# org-fixture graph, N-Triples subset. Planted hazards are labelled in
+# fixtures/README.md; the correct stamp for every triple below is known
+# in advance and asserted by the test suite.
+#
+# --- typing triples ---
+<ex:Alice> <rdf:type> <ex:Employee> .
+<ex:Bob> <rdf:type> <ex:Person> .
+<ex:Carol> <rdf:type> <ex:Employee> .
+<ex:Dave> <rdf:type> <ex:Person> .
+<ex:Erin> <rdf:type> <ex:Person> .
+<ex:Acme> <rdf:type> <ex:Organization> .
+<ex:Jacksonville> <rdf:type> <ex:City> .
+# Pat is typed into two disjoint classes -> DISJOINT_CLASS (both lines).
+<ex:Pat> <rdf:type> <ex:Person> .
+<ex:Pat> <rdf:type> <ex:Organization> .
+# Wizard is not a declared class -> UNKNOWN_CLASS.
+<ex:Zed> <rdf:type> <ex:Wizard> .
+#
+# --- conformant triples ---
+<ex:Alice> <ex:worksFor> <ex:Acme> .
+<ex:Acme> <ex:locatedIn> <ex:Jacksonville> .
+<ex:Bob> <ex:mentors> <ex:Alice> .
+<ex:Carol> <ex:hasManager> <ex:Dave> .
+#
+# --- planted violations ---
+# Second distinct manager for Carol; hasManager allows at most 1.
+<ex:Carol> <ex:hasManager> <ex:Erin> .
+# An Organization cannot worksFor anything: domain is Person.
+<ex:Acme> <ex:worksFor> <ex:Alice> .
+# A City is not an Organization: range of worksFor violated.
+<ex:Bob> <ex:worksFor> <ex:Jacksonville> .
+# likes is not declared in the ontology.
+<ex:Alice> <ex:likes> <ex:Bob> .
+#
+# --- unverifiable triples (missing evidence, not contradictions) ---
+# Ghost has no type triple at all.
+<ex:Ghost> <ex:mentors> <ex:Alice> .
+# Zed's only type is the undeclared class Wizard.
+<ex:Zed> <ex:mentors> <ex:Alice> .
+# Rex and Bone are untyped; these two hops also form the planted
+# non-composable path (range of owns is Vehicle, domain of eats is
+# Animal, and no class sits under both).
+<ex:Alice> <ex:owns> <ex:Rex> .
+<ex:Rex> <ex:eats> <ex:Bone> .

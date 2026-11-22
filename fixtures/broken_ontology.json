@@ -1,0 +1,1 @@
+{"classes":[{"name":"Agent"},{"name":"Person","parents":["Agent"]},{"name":"Organization"},{"name":"PersonOrg","parents":["Person","Organization"]}],"disjoint":[["Person","Organization"]],"name":"org-broken-fixture","properties":[{"domain":"Person","name":"worksFor","range":"Organization"}]}
